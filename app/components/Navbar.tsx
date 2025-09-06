@@ -43,7 +43,7 @@ const Navbar = () => {
               <div className="flex gap-4 items-center text-white ">
                 <Link href="/users">Users</Link>
                 <Link href="/products">Products</Link>
-                <Link href="/users/new">
+                <Link href="/admin">
                   <FaRegUserCircle className="text-2xl" />
                 </Link>
               </div>
@@ -65,6 +65,11 @@ const Navbar = () => {
           </div>
           <div>
             <Link href="/products">Products</Link>
+          </div>
+          <div>
+            <Link href="/admin">
+              <FaRegUserCircle className="text-2xl" />
+            </Link>
           </div>
         </ul>
       </div>
