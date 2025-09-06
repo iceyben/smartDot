@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { FaRegUserCircle } from "react-icons/fa";
 import Image from "next/image";
+import DropDown from "./DropDown";
 
 const Navbar = () => {
   return (
@@ -41,7 +42,9 @@ const Navbar = () => {
             <ul className="menu menu-horizontal">
               {/* Navbar menu content here */}
               <div className="flex gap-4 items-center text-white ">
-                <Link href="/users">Users</Link>
+                <DropDown />
+
+                <Link href="/about">About Us</Link>
                 <Link href="/products">Products</Link>
                 <Link href="/admin">
                   <FaRegUserCircle className="text-2xl" />
