@@ -15,9 +15,7 @@ const Hero = () => {
             tasks easier, faster, and more enjoyable—all at prices that fit your
             budget.
           </p>
-          <button className="btn btn-primary">
-            Shop Now
-          </button>
+          <button className="btn bg-[#f9bf29] w-40 flex m-auto">Shop Now</button>
         </div>
       </div>
     </div>
