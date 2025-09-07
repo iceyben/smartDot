@@ -1,13 +1,15 @@
-import React, { Children, ReactNode } from "react";
+import { ReactNode } from "react";
 import SideNav from "./components/SideNav";
 interface Props {
-  Children: ReactNode;
+  children: React.ReactNode;
 }
-const layout = ({ Children }: Props) => {
+const layout = ({ children }: Props) => {
   return (
-    <div>
-      <SideNav />
-      {Children}
+    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
+      <div className="w-full flex-none md:w-64">
+        <SideNav />
+      </div>
+      <div className="flex-grow p-6 md:overflow-y-auto ">{children}</div>
     </div>
   );
 };
