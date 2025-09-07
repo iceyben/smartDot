@@ -8,13 +8,18 @@ import { IoPowerSharp } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import Link from "next/link";
+import Image from "next/image";
 
 const SideNav = () => {
   const pathname = usePathname();
   return (
     <div className="flex flex-col space-y-4">
-      <div className="bg-[#f9bf29] rounded-sm shadow-lg md:w-50 h-30 ">
-        <h1 className="flex justify-center pt-10 ">DashBoard</h1>
+      <div className="flex flex-col items-center justify-center bg-[#f9bf29] rounded-sm shadow-lg md:w-50 h-30 ">
+        <Link href="/">
+          <Image src="/logo.png" alt="App Logo" width={40} height={40} />
+        </Link>
+
+        <h1 className=" ">DashBoard</h1>
       </div>
 
       <Link href="/dashboard">
