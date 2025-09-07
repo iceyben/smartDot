@@ -1,12 +1,13 @@
 import React, { Children, ReactNode } from "react";
 import SideNav from "./components/SideNav";
-interface Props{
+interface Props {
   Children: ReactNode;
 }
-const layout = ({Children}:Props) => {
+const layout = ({ Children }: Props) => {
   return (
     <div>
-      <SideNav/>
+      <SideNav />
+      {Children}
     </div>
   );
 };
