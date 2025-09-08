@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { FaRegUserCircle } from "react-icons/fa";
+
 import Image from "next/image";
 import DropDown from "./DropDown";
 
@@ -46,6 +47,7 @@ const Navbar = () => {
 
                 <Link href="/about">About Us</Link>
                 <Link href="/products">Products</Link>
+
                 <Link href="/admin">
                   <FaRegUserCircle className="text-2xl" />
                 </Link>
