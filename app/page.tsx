@@ -3,6 +3,11 @@ import Hero from "./components/Hero";
 import Loading from "./components/loading";
 import CategoryCard from "./components/CategoryCard";
 import { FaTiktok, FaInstagram, FaFacebookF } from "react-icons/fa";
+import PolicySection from "./components/PolicySection";
+import { LiaShippingFastSolid } from "react-icons/lia";
+import { PiSealCheckBold } from "react-icons/pi";
+import { FaHeadphonesSimple } from "react-icons/fa6";
+import { TfiWallet } from "react-icons/tfi";
 
 export default function Home() {
   return (
@@ -11,7 +16,7 @@ export default function Home() {
         <main className=" mb-20">
           <Hero />
           <div className="grid md:grid-rows-2 justify-center mt-5   ">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-5 justify-center">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5 justify-center">
               <CategoryCard
                 src="/watch.jpeg"
                 alt="Watch"
@@ -25,7 +30,7 @@ export default function Home() {
               <CategoryCard
                 src="/laptop.jpeg"
                 alt="Laptops"
-                className="h-50 w-full md:col-span-2"
+                className="h-50 w-full md:col-span-2 col-span-2"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-5 justify-center">
@@ -45,6 +50,29 @@ export default function Home() {
                 className="h-50 w-full "
               />
             </div>
+          </div>
+          <div className=" md:flex  md:justify-center md:space-x-6 mt-15 mb-10">
+            {/* <policies /> */}
+            <PolicySection
+              icon={<LiaShippingFastSolid />}
+              title="Free Shipping"
+              description="Free shipping on all order"
+            />
+            <PolicySection
+              icon={<PiSealCheckBold />}
+              title="Money Guarantee"
+              description="Free shipping on all order"
+            />
+            <PolicySection
+              icon={<FaHeadphonesSimple />}
+              title="Online Support 24/7"
+              description="Free shipping on all order"
+            />
+            <PolicySection
+              icon={<TfiWallet />}
+              title="Secure Payment"
+              description="Free shipping on all order"
+            />
           </div>
         </main>
         <footer className="footer footer-horizontal footer-center bg-base-200 text-base-content rounded p-10">

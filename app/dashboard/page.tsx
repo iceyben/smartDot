@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <div className="rounded-lg">
       <span className="flex items-center justify-between">
-        <h1>Dashbard Page</h1>
+        <h1>Dashbard </h1>
         <span className="flex items-center space-x-2 mb-6 ">
           <FaRegUserCircle className="text-2xl" />
           <h2>Admin Name</h2>

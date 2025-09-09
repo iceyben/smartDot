@@ -1,11 +1,14 @@
 import React from "react";
 import Link from "next/link";
 import { FaRegUserCircle } from "react-icons/fa";
+import clsx from "clsx";
 
 import Image from "next/image";
 import DropDown from "./DropDown";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+  const pathname = usePathname();
   return (
     <div className="drawer">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
@@ -44,10 +47,26 @@ const Navbar = () => {
               {/* Navbar menu content here */}
               <div className="flex gap-4 items-center text-white ">
                 <DropDown />
-
-                <Link href="/about">About Us</Link>
-                <Link href="/products">Products</Link>
-
+                <Link
+                  href="/about"
+                  className={clsx(
+                    "hover:text-yellow-200 uppercase font-medium",
+                    pathname === "/about" &&
+                      "underline decoration-yellow-400 decoration-2  underline-offset-4"
+                  )}
+                >
+                  About Us
+                </Link>
+                <Link
+                  href="/products"
+                  className={clsx(
+                    "hover:text-yellow-200 uppercase font-medium",
+                    pathname === "/products" &&
+                      "underline decoration-yellow-400 decoration-2  underline-offset-4"
+                  )}
+                >
+                  Products
+                </Link>
                 <Link href="/admin">
                   <FaRegUserCircle className="text-2xl" />
                 </Link>
