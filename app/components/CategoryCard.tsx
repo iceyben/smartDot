@@ -13,7 +13,7 @@ export default function CategoryCard({
 }: CategoryCardProps) {
   return (
     <div
-      className={`relative shadow-lg rounded-lg overflow-hidden ${className} aspect-square`}
+      className={`relative shadow-lg rounded-lg overflow-hidden border-green-300 border-2 ${className} aspect-square`}
     >
       <Image src={src} alt={alt} fill className="object-cover" />
     </div>
