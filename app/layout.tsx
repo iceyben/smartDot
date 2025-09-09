@@ -30,7 +30,7 @@ export default function RootLayout({
       >
         <ConditionalNavbar />
 
-        <main className="mx-5 my-5">{children}</main>
+        <main className="mx-6 my-6">{children}</main>
       </body>
     </html>
   );
