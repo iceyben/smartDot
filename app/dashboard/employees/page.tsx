@@ -2,7 +2,7 @@ import React from "react";
 
 const Page = () => {
   return (
-    <div>
+    <div className="bg-white">
       <h1>Employees Page</h1>
     </div>
   );

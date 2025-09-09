@@ -13,21 +13,21 @@ import Image from "next/image";
 const SideNav = () => {
   const pathname = usePathname();
   return (
-    <div className="flex flex-col space-y-4">
-      <div className="flex flex-col items-center justify-center bg-[#f9bf29] rounded-sm shadow-lg md:w-50 h-30 ">
+    <div className="flex flex-col space-y-4  ">
+      <div className="flex flex-col items-center justify-center  rounded-sm shadow-lg md:w-50 h-30 ">
         <Link href="/">
           <Image src="/logo.png" alt="App Logo" width={40} height={40} />
         </Link>
 
-        <h1 className=" ">DashBoard</h1>
+        <h1 className=" ">SmartDotCom</h1>
       </div>
 
       <Link href="/dashboard">
         <div
           className={clsx(
-            "bg-gray-100 rounded-sm shadow-lg md:w-50 h-10 flex  items-center pl-3 text-lg font-medium space-x-1.5 hover:bg-yellow-200  ",
+            " md:w-full h-10 flex  items-center pl-3 text-lg font-medium space-x-1.5 hover:bg-yellow-200 hover:text-black  ",
             {
-              "bg-yellow-200": pathname === "/dashboard",
+              "bg-white text-[#f9bf29]": pathname === "/dashboard",
             }
           )}
         >
@@ -38,9 +38,9 @@ const SideNav = () => {
       <Link href="/dashboard/employees">
         <div
           className={clsx(
-            "bg-gray-100 rounded-sm shadow-lg md:w-50 h-10 flex  items-center pl-3 text-lg font-medium space-x-1.5 hover:bg-yellow-200 ",
+            " md:w-full h-10 flex  items-center pl-3 text-lg font-medium space-x-1.5 hover:bg-yellow-200 hover:text-black  ",
             {
-              "bg-yellow-200": pathname === "/dashboard/employees",
+              "bg-white text-[#f9bf29]": pathname === "/dashboard/employees",
             }
           )}
         >
@@ -51,9 +51,9 @@ const SideNav = () => {
       <Link href="/dashboard/invoices">
         <div
           className={clsx(
-            "bg-gray-100 rounded-sm shadow-lg md:w-50 h-10 flex  items-center pl-3 text-lg font-medium space-x-1.5 hover:bg-yellow-200 ",
+            " md:w-full h-10 flex  items-center pl-3 text-lg font-medium space-x-1.5 hover:bg-yellow-200 hover:text-black  ",
             {
-              " bg-yellow-200 ": pathname === "/dashboard/invoices",
+              " bg-white text-[#f9bf29]": pathname === "/dashboard/invoices",
             }
           )}
         >
@@ -65,9 +65,9 @@ const SideNav = () => {
       <Link href="/dashboard/products">
         <div
           className={clsx(
-            "bg-gray-100 rounded-sm shadow-lg md:w-50 h-10 flex  items-center pl-3 text-lg font-medium space-x-1.5 hover:bg-yellow-200 ",
+            " md:w-full h-10 flex  items-center pl-3 text-lg font-medium space-x-1.5 hover:bg-yellow-200 hover:text-black  ",
             {
-              "bg-yellow-200": pathname === "/dashboard/products",
+              "bg-white text-[#f9bf29]": pathname === "/dashboard/products",
             }
           )}
         >
