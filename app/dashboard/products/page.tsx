@@ -1,11 +1,15 @@
+// app/dashboard/products/page.tsx
+import ProductForm from "@/app/products/components/ProductForm";
+import ProductList from "@/app/products/components/ProductList";
 import React from "react";
 
-const Page = () => {
+export default function ProductsPage() {
   return (
-    <div>
-      <h1>Products Page</h1>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-6">Add New Product</h1>
+      <ProductForm />
+      <h2>All Products</h2>
+      <ProductList />
     </div>
   );
-};
-
-export default Page;
+}

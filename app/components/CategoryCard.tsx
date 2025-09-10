@@ -21,7 +21,6 @@ export default function CategoryCard({
     <div
       className={`relative shadow-lg rounded-lg overflow-hidden border-green-300 border-2 ${className} aspect-square hover:scale-110 transition-transform duration-300`}
     >
-      
       <Image src={src} alt={alt} fill className="object-cover" />
 
       {/* Button positioned over image */}
