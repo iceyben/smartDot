@@ -22,7 +22,7 @@ const ProductCard = ({
       </figure>
       <div className="px-4 pt-1.5 pb-4">
         <h2 className="font-medium">{title}</h2>
-        <p className="font-semibold mt-1">${price} rwf</p>
+        <p className="font-semibold  text-[#ffba0d]">${price} rwf</p>
         <p className="text-[12px]">{description}</p>
 
         <div className="card-actions justify-end">
