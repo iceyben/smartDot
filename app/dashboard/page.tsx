@@ -11,7 +11,7 @@ export default function Page() {
         <h1>Dashbard </h1>
         <span className="flex items-center space-x-2 mb-6 ">
           <FaRegUserCircle className="text-2xl" />
-          <h2>Admin Name</h2>
+          <h2>Hannah </h2>
         </span>
       </span>
       <hr className=" border-0 bg-gray-200 h-0.5 " />

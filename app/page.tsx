@@ -15,22 +15,36 @@ export default function Home() {
       <Suspense fallback={<Loading />}>
         <main className=" mb-20">
           <Hero />
-          <div className="grid md:grid-rows-2 justify-center mt-5   ">
+
+          {/* categories */}
+          <h2 className="text-black text-2xl mt-5  text-center font-bold">
+            Browse Category
+          </h2>
+          <div className="grid md:grid-rows-2 justify-center    ">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5 justify-center">
               <CategoryCard
                 src="/watch.jpeg"
                 alt="Watch"
                 className="h-50 w-full"
+                btn="Browse"
+                title="Wearables"
+                description="Enjoy"
               />
               <CategoryCard
                 src="/vr.jpeg"
-                alt="Watch"
+                alt="VR Glasses"
                 className="h-50 w-full"
+                btn="Browse"
+                title="VR Glasses"
+                description="Enjoy"
               />
               <CategoryCard
                 src="/laptop.jpeg"
                 alt="Laptops"
                 className="h-50 w-full md:col-span-2 col-span-2"
+                btn="Browse"
+                title="Laptops"
+                description="Enjoy"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-5 justify-center">
@@ -38,16 +52,43 @@ export default function Home() {
                 src="/smartphones.jpeg"
                 alt="Smartphones"
                 className="h-50 w-full md:col-span-2"
+                btn="Browse"
+                title="Smartphones"
+                description="Enjoy"
               />
               <CategoryCard
                 src="/speaker.jpeg"
                 alt="speaker"
                 className="h-50 w-full"
+                btn="Browse"
+                title="Wireless Speakers"
+                description="Enjoy"
               />
               <CategoryCard
                 src="/headphone.jpeg"
                 alt="Headphone"
                 className="h-50 w-full "
+                btn="Browse"
+                title="Headphones/Earpiece"
+                description="Enjoy"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-5 justify-center">
+              <CategoryCard
+                src="/lights.jpg"
+                alt="Lights"
+                className="h-50 w-full md:col-span-2"
+                btn="Browse"
+                title="Lights"
+                description="Enjoy"
+              />
+              <CategoryCard
+                src="/image2.jpeg"
+                alt="Microphone"
+                className="h-50 w-full md:col-span-2"
+                btn="Browse"
+                title="Microphones"
+                description="Enjoy"
               />
             </div>
           </div>

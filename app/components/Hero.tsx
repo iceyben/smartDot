@@ -17,7 +17,7 @@ const Hero = () => {
             budget.
           </p>
           <Link href="/products">
-            <button className="btn bg-[#f9bf29] w-40 flex m-auto">
+            <button className="btn bg-[#f9bf29] hover:bg-yellow-500  w-40 flex m-auto">
               Shop Now
             </button>
           </Link>
