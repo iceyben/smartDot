@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface CategoryCardProps {
   src: string;
@@ -31,9 +32,11 @@ export default function CategoryCard({
         <h2 className="absolute top-24 left-3 text-3xl text-gray-200 font-bold opacity-50 uppercase">
           {title}
         </h2>
-        <button className="absolute bottom-4 hover:bg-red-800 right-4 bg-red-600 text-white px-2 py-1 rounded-lg shadow-md text-sm">
-          {btn}
-        </button>
+        <Link href={"/products"}>
+          <button className="absolute bottom-4 hover:bg-red-800 right-4 bg-red-600 text-white px-2 py-1 rounded-lg shadow-md text-sm">
+            {btn}
+          </button>
+        </Link>
       </div>
     </div>
   );
