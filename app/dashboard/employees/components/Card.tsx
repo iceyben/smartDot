@@ -19,24 +19,24 @@ const EmployeeCard = ({
      phone,
 }: EmployeeCardProps) => {
      return (
-          <div className="bg-slate-200 p-4 rounded-lg flex space-x-5 justify-center mt-5">
-               <div className="flex items-center">
+          <div className="bg-slate-200 p-4 rounded-lg flex md:flex-col md:justify-center  space-x-5 justify-center mt-5">
+               <div className="flex items-center md:justify-center">
                     <Image
                          src={src}
                          alt={alt}
                          height={194}
                          width={198}
-                         className="h-20 w-20 object-cover rounded-full"
+                         className="h-20 w-20 object-cover rounded-full "
                     />
                </div>
-               <div className="space-y-2">
+               <div className="space-y-2 ">
                     <h2 className="font-medium text-lg text-center"> {name}</h2>
-                    <div className="bg-amber-300 w-18  mx-auto rounded-full  ">
+                    <div className="bg-amber-300 w-18  mx-auto rounded-full   ">
                          <p className="text-center text-[10px] py-0.5">
                               {position}
                          </p>
                     </div>
-                    <span>
+                    <span className="md:text-center">
                          <p className="text-xs">{email}</p>
                          <p className="text-xs pt-1">{phone}</p>
                     </span>

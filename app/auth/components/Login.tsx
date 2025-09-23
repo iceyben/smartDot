@@ -1,0 +1,57 @@
+import React from "react";
+import Link from "next/link";
+
+const Login = () => {
+     return (
+          <div className="grid grid-cols-1 md:grid-cols-2 md:py-15 md:px-20 md:h-110 ">
+               <form
+                    action=""
+                    className="flex flex-col bg-slate-200 rounded-l-lg text-center "
+               >
+                    <h2 className="text-2xl font-extrabold pt-5 capitalize">
+                         Log in
+                    </h2>
+                    <span>Icons here</span>
+                    <p className="text-[13px] font-semibold pb-3">
+                         or use your account
+                    </p>
+                    <div className="flex flex-col mx-25 space-y-2 ">
+                         <input
+                              type="text"
+                              placeholder="Name"
+                              className="bg-slate-100 px-2 py-2 text-sm"
+                         />
+                         <input
+                              type="email"
+                              placeholder="Email"
+                              className="bg-slate-100 px-2 py-2 text-sm"
+                         />
+                         <input
+                              type="password"
+                              placeholder="Password"
+                              className="bg-slate-100 px-2 py-2 text-sm"
+                         />
+                    </div>
+                    <button className="bg-amber-500 m-auto px-10 py-2 rounded-2xl font-medium text-center uppercase border-1 border-white cursor-pointer">
+                         Log In
+                    </button>
+               </form>
+               <div className="bg-green-600 flex flex-col  text-center md:pt-10 rounded-lg text-white ">
+                    <h2 className="md:text-4xl  font-extrabold pb-6">
+                         You Need An Acount!
+                    </h2>
+                    <p className="pb-10">
+                         Enter your personal details and start now!
+                    </p>
+
+                    <Link href="/auth/signup">
+                         <button className="cursor-pointer bg-transparent m-auto px-10 py-2 rounded-2xl font-medium text-center uppercase border-1 border-white">
+                              Sign up
+                         </button>
+                    </Link>
+               </div>
+          </div>
+     );
+};
+
+export default Login;

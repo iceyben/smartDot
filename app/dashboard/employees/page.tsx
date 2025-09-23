@@ -5,7 +5,7 @@ const Page = () => {
      return (
           <div className="bg-white">
                <h1>Employees Page</h1>
-               <div className=" px-5 ">
+               <div className="grid grid-cols-1 md:grid-cols-3 md:gap-10 px-5 ">
                     {/* Employee cards will go here */}
                     <EmployeeCard
                          src="/employee.png"

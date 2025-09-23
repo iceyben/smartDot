@@ -92,7 +92,7 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className=" md:flex  md:justify-center md:space-x-6 mt-15 mb-10">
+          <div className="grid grid-cols-2 gap-4 md:flex  md:justify-center md:space-x-6 mt-15 mb-10">
             {/* <policies /> */}
             <PolicySection
               icon={<LiaShippingFastSolid />}
