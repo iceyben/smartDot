@@ -14,7 +14,7 @@ const SideNav = () => {
      const pathname = usePathname();
      return (
           <div className="flex flex-col space-y-4 pb-4 ">
-               <div className="flex md:flex-col items-center justify-center  rounded-sm shadow-lg md:w-50 h-30 ">
+               <div className="flex md:flex-col items-center justify-center  rounded-sm shadow-lg md:w-50 h-20 md:h-30 ">
                     <Link href="/">
                          <Image
                               src="/logo.png"
@@ -31,14 +31,14 @@ const SideNav = () => {
                     <Link href="/dashboard">
                          <div
                               className={clsx(
-                                   "w-12 md:w-full h-10 flex  items-center justify-center md:pl-3 text-2xl md:text-lg font-medium space-x-1.5 hover:bg-yellow-200 hover:text-black   ",
+                                   "w-12 md:w-full h-10 flex  items-center md:mb-4 justify-center md:justify-start md:pl-3 text-2xl md:text-lg font-medium space-x-1.5 hover:bg-yellow-200 hover:text-black   ",
                                    {
                                         "bg-[#f9bf29]  md:bg-white text-green-70 md:text-[#f9bf29]":
                                              pathname === "/dashboard",
                                    }
                               )}
                          >
-                              <FiHome className="m-auto" />{" "}
+                              <FiHome className="" />{" "}
                               <h2 className="hidden md:block  ">Home</h2>
                          </div>
                     </Link>
@@ -46,7 +46,7 @@ const SideNav = () => {
                     <Link href="/dashboard/employees">
                          <div
                               className={clsx(
-                                   "w-12 md:w-full h-10 flex  items-center pl-3 text-2xl md:text-lg font-medium space-x-1.5 hover:bg-yellow-200 hover:text-black   ",
+                                   "w-12 md:w-full h-10 flex  items-center pl-3 text-2xl md:mb-4 md:text-lg font-medium space-x-1.5 hover:bg-yellow-200 hover:text-black   ",
                                    {
                                         "bg-[#f9bf29]  md:bg-white text-green-70 md:text-[#f9bf29]":
                                              pathname ===
@@ -62,7 +62,7 @@ const SideNav = () => {
                     <Link href="/dashboard/invoices">
                          <div
                               className={clsx(
-                                   "w-12 md:w-full h-10 flex  items-center pl-3 text-2xl md:text-lg font-medium space-x-1.5 hover:bg-yellow-200 hover:text-black  ",
+                                   "w-12 md:w-full h-10 flex  items-center pl-3 text-2xl md:mb-4 md:text-lg font-medium space-x-1.5 hover:bg-yellow-200 hover:text-black  ",
                                    {
                                         " bg-[#f9bf29]  md:bg-white text-green-70 md:text-[#f9bf29]":
                                              pathname === "/dashboard/invoices",
