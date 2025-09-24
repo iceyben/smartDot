@@ -19,7 +19,7 @@ const EmployeeCard = ({
      phone,
 }: EmployeeCardProps) => {
      return (
-          <div className="bg-slate-200 p-4 rounded-lg flex md:flex-col md:justify-center  space-x-5 justify-center mt-5">
+          <div className="bg-slate-200 p-4 rounded-lg flex md:flex-col md:justify-center  space-x-5 justify-center mt-5 ">
                <div className="flex items-center md:justify-center">
                     <Image
                          src={src}
