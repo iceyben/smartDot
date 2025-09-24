@@ -1,5 +1,10 @@
 import React from "react";
 import Link from "next/link";
+import { FaFacebookF } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { BsApple } from "react-icons/bs";
+
+
 
 const Login = () => {
      return (
@@ -11,7 +16,11 @@ const Login = () => {
                     <h2 className="text-2xl font-extrabold pt-3 capitalize">
                          Log in
                     </h2>
-                    <span>Icons here</span>
+                    <span>
+                         <FaFacebookF className="inline text-blue-600 text-2xl mx-2 cursor-pointer" />
+                         <FcGoogle className="inline text-2xl mx-2 cursor-pointer" />
+                         <BsApple className="inline text-2xl mx-2 cursor-pointer" />
+                    </span>
                     <p className="text-[13px] font-semibold pb-3">
                          or use your account
                     </p>
