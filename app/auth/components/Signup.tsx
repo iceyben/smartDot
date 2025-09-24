@@ -3,8 +3,8 @@ import Link from "next/link";
 
 const Signup = () => {
      return (
-          <div className="grid grid-cols-1 md:grid-cols-2 md:py-15 md:px-20 md:h-110 ">
-               <div className="bg-green-600 flex flex-col  text-center md:pt-10 rounded-lg text-white ">
+          <div className="grid grid-cols-1 md:grid-cols-2 md:py-15 md:px-20 md:h-110 transition-all duration-300 ">
+               <div className="bg-green-600 flex flex-col  text-center py-5 md:pt-10 rounded-lg text-white ">
                     <h2 className="md:text-4xl  font-extrabold pb-6">
                          Welcome Back!
                     </h2>
@@ -14,14 +14,14 @@ const Signup = () => {
                     </p>
 
                     <Link href="/auth/login">
-                         <button className="cursor-pointer bg-transparent m-auto px-10 py-2 rounded-2xl font-medium text-center uppercase border-1 border-white">
+                         <button className="cursor-pointer bg-transparent m-auto px-10 py-2 rounded-2xl font-medium text-center uppercase border-1 border-white transition duration-300 hover:bg-white hover:text-green-600">
                               Login
                          </button>
                     </Link>
                </div>
                <form
                     action=""
-                    className="flex flex-col bg-slate-200 rounded-r-lg text-center "
+                    className="flex flex-col bg-slate-200 rounded-r-lg text-center pb-5 space-y-3"
                >
                     <h2 className="text-2xl font-extrabold pt-5 capitalize">
                          Create Account
