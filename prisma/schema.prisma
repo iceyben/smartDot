@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
   output   = "../app/generated/prisma"
@@ -14,63 +15,117 @@ enum Role {
 }
 
 enum SaleType {
-  SALE      // customer buys: stock decreases
-  PURCHASE  // you restock: stock increases
+  SALE // customer buys: stock decreases
+  PURCHASE // you restock: stock increases
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
-  email        String    @unique
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String   @db.Text
   passwordHash String
-  role         Role      @default(EMPLOYEE)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt   // ✅ auto update
+  role         Role     @default(EMPLOYEE)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  products     Product[]
-  sales        Sale[]
+  products      Product[]
+  sales         Sale[]
+  emailVerified Boolean   @default(false)
+  image         String?   @db.Text
+  sessions      Session[]
+  accounts      Account[]
+
+  @@map("user")
 }
 
+
+
 model Product {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   title       String
   description String?
   imageUrl    String?
-  price       Decimal   @db.Decimal(10, 2)
-  quantity    Int       @default(0) 
-  isNew       Boolean   @default(false)
-  isTrending  Boolean   @default(false)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt   // ✅ auto update
+  price       Decimal  @db.Decimal(10, 2)
+  quantity    Int      @default(0)
+  isNew       Boolean  @default(false)
+  isTrending  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt // ✅ auto update
 
   createdById Int?
-  createdBy   User?     @relation(fields: [createdById], references: [id])
+  createdBy   User? @relation(fields: [createdById], references: [id])
 
-  saleItems   SaleItem[]
+  saleItems SaleItem[]
 
   @@index([title])
 }
 
 model Sale {
-  id          Int       @id @default(autoincrement())
-  type        SaleType  @default(SALE)
-  total       Decimal   @db.Decimal(10, 2)
-  createdAt   DateTime  @default(now())
+  id        Int      @id @default(autoincrement())
+  type      SaleType @default(SALE)
+  total     Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
 
   createdById Int
-  createdBy   User      @relation(fields: [createdById], references: [id])
+  createdBy   User @relation(fields: [createdById], references: [id])
 
-  items       SaleItem[]
+  items SaleItem[]
 }
 
 model SaleItem {
-  id        Int      @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  saleId    Int
-  sale      Sale     @relation(fields: [saleId], references: [id])
+  saleId Int
+  sale   Sale @relation(fields: [saleId], references: [id])
 
   productId Int
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 
   quantity  Int
-  unitPrice Decimal  @db.Decimal(10, 2) // snapshot of price at txn
+  unitPrice Decimal @db.Decimal(10, 2) // snapshot of price at txn
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?  @db.Text
+  userAgent String?  @db.Text
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String    @db.Text
+  providerId            String    @db.Text
+  userId                Int
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?   @db.Text
+  refreshToken          String?   @db.Text
+  idToken               String?   @db.Text
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?   @db.Text
+  password              String?   @db.Text
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String   @db.Text
+  value      String   @db.Text
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@map("verification")
 }
