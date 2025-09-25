@@ -43,12 +43,17 @@ const Navbar = () => {
                          <div className="mx-2 flex-1 px-2">
                               {" "}
                               <Link href="/">
-                                   <Image
-                                        src="/logo.png"
-                                        alt="App Logo"
-                                        width={40}
-                                        height={40}
-                                   />
+                                   <span className="flex items-center ">
+                                        <Image
+                                             src="/logo.png"
+                                             alt="App Logo"
+                                             width={40}
+                                             height={40}
+                                        />
+                                        <h1 className="md:text-2xl text-white">
+                                             SmartDotCom <span className="text-[12px] text-blue-800">electronics</span>
+                                        </h1>
+                                   </span>
                               </Link>{" "}
                          </div>
                          <div className="hidden flex-none lg:block">
