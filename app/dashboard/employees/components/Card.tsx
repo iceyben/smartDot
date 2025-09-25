@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import { BsX } from "react-icons/bs";
 
 interface EmployeeCardProps {
      src: string;
@@ -19,14 +20,17 @@ const EmployeeCard = ({
      phone,
 }: EmployeeCardProps) => {
      return (
-          <div className="bg-slate-200 p-4 rounded-lg flex md:flex-col md:justify-center  space-x-5 justify-center mt-5 ">
+          <div className="bg-slate-200 p-4 rounded-lg flex md:flex-col md:justify-center  space-x-5 justify-center mt-5   ">
+               <span>
+                    <BsX className="text-xl cursor-pointer hover:bg-red-600 transition-colors duration-75 bg-amber-300 rounded-full hover:text-slate-200 " />
+               </span>
                <div className="flex items-center md:justify-center">
                     <Image
                          src={src}
                          alt={alt}
                          height={194}
                          width={198}
-                         className="h-20 w-20 object-cover rounded-full "
+                         className="h-20 w-20 object-cover rounded-full md:ml-4 "
                     />
                </div>
                <div className="space-y-2 ">
