@@ -3,118 +3,132 @@
 import React, { useState, useRef } from "react";
 
 export default function ProductForm() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-  const [message, setMessage] = useState("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
+     const [title, setTitle] = useState("");
+     const [description, setDescription] = useState("");
+     const [price, setPrice] = useState("");
+     const [files, setFiles] = useState<File[]>([]);
+     const [previews, setPreviews] = useState<string[]>([]);
+     const [message, setMessage] = useState("");
+     const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-      setPreview(URL.createObjectURL(e.target.files[0]));
-    }
-  };
+     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+          if (e.target.files) {
+               const newFiles = Array.from(e.target.files);
+               setFiles(newFiles);
+               setPreviews(newFiles.map((f) => URL.createObjectURL(f)));
+          }
+     };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      setFile(e.dataTransfer.files[0]);
-      setPreview(URL.createObjectURL(e.dataTransfer.files[0]));
-    }
-  };
+     const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+          e.preventDefault();
+          if (e.dataTransfer.files) {
+               const newFiles = Array.from(e.dataTransfer.files);
+               setFiles(newFiles);
+               setPreviews(newFiles.map((f) => URL.createObjectURL(f)));
+          }
+     };
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) =>
-    e.preventDefault();
+     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) =>
+          e.preventDefault();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!file) {
-      setMessage("Please select an image!");
-      return;
-    }
+     const handleSubmit = async (e: React.FormEvent) => {
+          e.preventDefault();
+          if (!files.length) {
+               setMessage("Please select at least one image!");
+               return;
+          }
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("price", price);
-    formData.append("image", file);
+          const formData = new FormData();
+          formData.append("title", title);
+          formData.append("description", description);
+          formData.append("price", price);
+          files.forEach((f) => formData.append("images", f));
 
-    try {
-      const res = await fetch("/api/products", {
-        method: "POST",
-        body: formData,
-      });
-      if (res.ok) {
-        setMessage("Product uploaded successfully!");
-        setTitle("");
-        setDescription("");
-        setPrice("");
-        setFile(null);
-        setPreview(null);
-      } else {
-        const data = await res.json();
-        setMessage("Error: " + data.error);
-      }
-    } catch {
-      setMessage("Failed to upload product");
-    }
-  };
+          try {
+               const res = await fetch("/api/products", {
+                    method: "POST",
+                    body: formData,
+               });
+               if (!res.ok) {
+                    const data = await res.json();
+                    setMessage("Error: " + data.error);
+                    return;
+               }
 
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-md mx-auto space-y-4 p-4 border rounded shadow"
-    >
-      <input
-        type="text"
-        placeholder="Product Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="input input-bordered w-full"
-        required
-      />
-      <textarea
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        className="textarea textarea-bordered w-full"
-      />
-      <input
-        type="number"
-        placeholder="Price"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-        className="input input-bordered w-full"
-        required
-      />
+               setMessage("Product uploaded successfully!");
+               setTitle("");
+               setDescription("");
+               setPrice("");
+               setFiles([]);
+               setPreviews([]);
+          } catch (err) {
+               console.error(err);
+               setMessage("Failed to upload product");
+          }
+     };
 
-      <div
-        className="border-2 border-dashed border-gray-400 p-4 text-center cursor-pointer"
-        onClick={() => fileInputRef.current?.click()}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-      >
-        {preview ? (
-          <img src={preview} alt="Preview" className="mx-auto h-40" />
-        ) : (
-          <p>Drag & Drop image here or click to select</p>
-        )}
-        <input
-          type="file"
-          ref={fileInputRef}
-          className="hidden"
-          accept="image/*"
-          onChange={handleFileChange}
-        />
-      </div>
+     return (
+          <form
+               onSubmit={handleSubmit}
+               className="max-w-md mx-auto space-y-4 p-4 border rounded shadow"
+          >
+               <input
+                    type="text"
+                    placeholder="Title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="input input-bordered w-full"
+                    required
+               />
+               <textarea
+                    placeholder="Description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="textarea textarea-bordered w-full"
+               />
+               <input
+                    type="number"
+                    placeholder="Price"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    className="input input-bordered w-full"
+                    required
+               />
 
-      <button type="submit" className="btn btn-primary w-full">
-        Add Product
-      </button>
-      {message && <p className="text-sm text-green-600">{message}</p>}
-    </form>
-  );
+               <div
+                    className="border-2 border-dashed p-4 text-center cursor-pointer"
+                    onClick={() => fileInputRef.current?.click()}
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+               >
+                    {previews.length ? (
+                         <div className="grid grid-cols-3 gap-2">
+                              {previews.map((src, idx) => (
+                                   <img
+                                        key={idx}
+                                        src={src}
+                                        alt="Preview"
+                                        className="h-24 w-full object-cover"
+                                   />
+                              ))}
+                         </div>
+                    ) : (
+                         <p>Drag & Drop images or click to select</p>
+                    )}
+                    <input
+                         type="file"
+                         ref={fileInputRef}
+                         hidden
+                         multiple
+                         accept="image/*"
+                         onChange={handleFileChange}
+                    />
+               </div>
+
+               <button type="submit" className="btn btn-primary w-full">
+                    Add Product
+               </button>
+               {message && <p className="text-sm text-green-600">{message}</p>}
+          </form>
+     );
 }
