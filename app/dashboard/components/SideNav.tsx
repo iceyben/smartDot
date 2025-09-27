@@ -75,7 +75,7 @@ const SideNav = () => {
                     </Link>
 
                     {/* Products nav links */}
-                    <Link href="/dashboard/products">
+                    <Link href="/dashboard/manage_products">
                          <div
                               className={clsx(
                                    "w-12 md:w-full h-10 flex  items-center pl-3 text-2xl md:text-lg font-medium space-x-1.5 hover:bg-yellow-200 hover:text-black  ",

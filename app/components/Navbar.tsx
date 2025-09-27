@@ -6,6 +6,8 @@ import clsx from "clsx";
 import Image from "next/image";
 import DropDown from "./DropDown";
 import { usePathname } from "next/navigation";
+import { PiSignOut } from "react-icons/pi";
+import CartIcon from "./CartIcon";
 
 const Navbar = () => {
      const pathname = usePathname();
@@ -51,7 +53,10 @@ const Navbar = () => {
                                              height={40}
                                         />
                                         <h1 className="md:text-2xl text-white">
-                                             SmartDotCom <span className="text-[12px] text-blue-800">electronics</span>
+                                             SmartDotCom{" "}
+                                             <span className="text-[12px] text-blue-800">
+                                                  electronics
+                                             </span>
                                         </h1>
                                    </span>
                               </Link>{" "}
@@ -82,7 +87,15 @@ const Navbar = () => {
                                              Products
                                         </Link>
                                         <Link href="/auth/signup">
-                                             <FaRegUserCircle className="text-2xl" />
+                                             <span className="flex items-center space-x-1 hover:underline hover:text-yellow-400">
+                                                  <PiSignOut className="hover:yellow-400" />
+                                                  <p className="">Sign in</p>
+                                             </span>
+                                        </Link>
+                                        <Link href="">
+                                             <span className="flex items-center ">
+                                                  <CartIcon />
+                                             </span>
                                         </Link>
                                    </div>
                               </ul>
@@ -104,6 +117,7 @@ const Navbar = () => {
                          <div>
                               <Link href="/products">Products</Link>
                          </div>
+
                          <div>
                               <Link href="/auth/signup">
                                    <FaRegUserCircle className="text-2xl" />
