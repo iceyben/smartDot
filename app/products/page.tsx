@@ -35,21 +35,18 @@ const ProductPage = () => {
                <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                     {products.map((product) => (
                          <ProductCard
-                              key={product.id}
-                              src={product.images?.[0] || "/placeholder.png"} // ✅ first image = thumbnail
-                              alt={product.title}
-                              title={product.title}
-                              description={product.description || ""}
-                              price={product.price}
-                              category="" // can map real category later
-                              status={
-                                   product.isNew
-                                        ? "New"
-                                        : product.isTrending
-                                        ? "Trending"
-                                        : "Available"
-                              }
-                         />
+                        key={product.id}
+                        src={product.images?.[0] || "/placeholder.png"} // ✅ first image = thumbnail
+                        alt={product.title}
+                        title={product.title}
+                        description={product.description || ""}
+                        price={product.price}
+                        category="" // can map real category later
+                        status={product.isNew
+                          ? "New"
+                          : product.isTrending
+                            ? "Trending"
+                            : "Available"} href={""}                         />
                     ))}
                </div>
           </div>
