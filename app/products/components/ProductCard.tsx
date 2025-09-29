@@ -2,7 +2,8 @@ import React from "react";
 import AddToCart from "./AddToCart";
 import Link from "next/link";
 import Image from "next/image";
-import { CiHeart } from "react-icons/ci"; import { FaOpencart } from "react-icons/fa";
+import { FaOpencart } from "react-icons/fa";
+import { WishlistButton } from "./WishlistButton";
 
 
 interface ProductCardProps {
@@ -29,10 +30,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
      category,
 }) => {
      return (
-          <div className="relative flex flex-col bg-slate-200 p-3 rounded-2xl">
-               <span className="absolute bg-white rounded-full p-1 right-5 top-4">
-                   <CiHeart/>
-               </span>
+          <div className="relative shadow-lg  flex flex-col bg-slate-200 p-3 rounded-2xl">
+               <WishlistButton/>
                <Link href={`/products/${1}`}>
                <Image src="/image1.jpg" alt="Product" height={123} width={123} className=" rounded-lg w-full object-cover" />
                </Link>
