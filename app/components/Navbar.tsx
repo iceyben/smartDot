@@ -86,13 +86,13 @@ const Navbar = () => {
                                         >
                                              Products
                                         </Link>
-                                        <Link href="/auth/login">
+                                        <Link href="/login">
                                              <span className="flex items-center space-x-1 hover:underline hover:text-yellow-400">
                                                   <PiSignOut className="hover:yellow-400" />
                                                   <p className="">Sign in</p>
                                              </span>
                                         </Link>
-                                         <Link href="/auth/signup">
+                                         <Link href="/signup">
                                              <span className="border-1 px-1 py-0.5 rounded-lg hover:bg-yellow-400 flex items-center space-x-1  hover:text-white">
                                                   <p className="">Sign up</p>
                                              </span>
