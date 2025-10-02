@@ -3,19 +3,31 @@ import { BsGraphUpArrow } from "react-icons/bs";
 import { FaCircleNotch } from "react-icons/fa";
 import { IoBagHandleSharp } from "react-icons/io5";
 import Image from "next/image";
+import { auth } from "@/app/lib/auth"; // adjust the import path to your setup
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
-export default function Page() {
+
+
+export default async function Page() {
+     const session = await auth.api.getSession({
+          headers: await headers(),  // pass request headers
+        });
+      
+        if (!session) {
+          redirect("/login");
+        }
      return (
           <div className="rounded-lg">
                <div className="grid grid-cols-2 mb-6 ">
                     <div className=" flex flex-col">
                          <h1>Dashboard </h1>
                          <p className="text-[11px] font-medium text-slate-400">
-                              Hi, {"Mubarak"}. Welcome back!
+                              Welcome back {session.user.name}!
                          </p>
                     </div>
                     <div className=" flex items-center justify-end space-x-2">
-                         <h2>Mubarak </h2>
+                         <h2> {session.user.email}</h2>
                          <Image
                               className="h-8 w-8 rounded-full object-cover"
                               width={198}

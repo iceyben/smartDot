@@ -9,19 +9,21 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
-  socialProviders: {
-    google: {
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    },
-    github: {
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-    },
-  },
+
+  // ❌ Disabled social logins to stop missing clientId/clientSecret warnings
+  // socialProviders: {
+  //   google: {
+  //     clientId: process.env.GOOGLE_CLIENT_ID!,
+  //     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+  //   },
+  //   github: {
+  //     clientId: process.env.GITHUB_CLIENT_ID!,
+  //     clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+  //   },
+  // },
+
   emailAndPassword: {
     enabled: true,
-    // requireEmailVerification: true, // Only if you want to block login completely
     async sendResetPassword({ user, url }) {
       await sendEmail({
         to: user.email,
@@ -30,6 +32,7 @@ export const auth = betterAuth({
       });
     },
   },
+
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
@@ -41,6 +44,7 @@ export const auth = betterAuth({
       });
     },
   },
+
   user: {
     changeEmail: {
       enabled: true,
@@ -59,6 +63,7 @@ export const auth = betterAuth({
       },
     },
   },
+
   hooks: {
     before: createAuthMiddleware(async (ctx) => {
       if (
