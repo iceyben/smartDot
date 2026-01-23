@@ -62,7 +62,6 @@ export default function ProductForm() {
                setFiles([]);
                setPreviews([]);
           } catch (err) {
-               console.error(err);
                setMessage("Failed to upload product");
           }
      };

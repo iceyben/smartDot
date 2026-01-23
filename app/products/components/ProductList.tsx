@@ -21,7 +21,6 @@ export default function ProductList() {
                const data = await res.json();
                setProducts(data);
           } catch (err) {
-               console.error(err);
                setProducts([]);
           }
      };

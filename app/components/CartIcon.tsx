@@ -1,17 +1,22 @@
 "use client";
 import React from "react";
 import { FaOpencart } from "react-icons/fa";
+import { useCart } from "../context/CartContext";
 
 const CartIcon = () => {
+     const { cart } = useCart();
+
      return (
-          <>
-               <div className="  ">
-                    <span className="bg-red-500 absolute right-8 top-4  rounded-full px-[3px] py-[0px] flex justify-center items-center ">
-                         <p className="text-[8px] text-center">1</p>
+          <div className="relative inline-flex items-center">
+               <FaOpencart className="text-xl" />
+               {cart.itemCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full min-w-[18px] h-[18px] flex justify-center items-center px-1">
+                         <p className="text-[10px] font-semibold">
+                              {cart.itemCount > 99 ? '99+' : cart.itemCount}
+                         </p>
                     </span>
-                    <FaOpencart className="text-xl relative " />
-               </div>
-          </>
+               )}
+          </div>
      );
 };
 
