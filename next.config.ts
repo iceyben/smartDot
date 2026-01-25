@@ -16,7 +16,6 @@ const nextConfig: NextConfig = {
       },
     ],
     // Production image optimization settings
-    minimumCacheTTL: 60 * 60 * 24 * 365, // 1 year
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
@@ -45,17 +44,6 @@ const nextConfig: NextConfig = {
             value: "1; mode=block",
           },
         ],
-      },
-    ];
-  },
-
-  // Redirect HTTP to HTTPS in production
-  redirects: async () => {
-    return [
-      {
-        source: "/:path*",
-        destination: "/:path*",
-        permanent: true,
       },
     ];
   },
