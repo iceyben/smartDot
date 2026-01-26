@@ -85,7 +85,7 @@ export default function CheckoutPage() {
     const [previewMessage, setPreviewMessage] = useState("");
 
     // WhatsApp admin phone number
-    const ADMIN_WHATSAPP = "+250798922605";
+    const ADMIN_WHATSAPP = "+250785657398";
 
     // If cart is empty, redirect to products
     if (cart.items.length === 0) {
