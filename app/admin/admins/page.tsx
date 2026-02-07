@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface Admin {
   id: string;
@@ -12,53 +13,48 @@ interface Admin {
 }
 
 export default function AdminsPage() {
-  const { data: session } = useSession();
+  const { status } = useSession();
+  const router = useRouter();
+
   const [admins, setAdmins] = useState<Admin[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [message, setMessage] = useState<{ text: string, type: 'success' | 'error' } | null>(null);
+
+  // Form states in a single object
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: "",
+    password: ""
   });
-  const [submitting, setSubmitting] = useState(false);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-  // Fetch admins
-  useEffect(() => {
-    fetchAdmins();
-  }, []);
-
-  const fetchAdmins = async () => {
+  const fetchAdmins = useCallback(async () => {
     try {
       const res = await fetch("/api/admin/admins");
       if (res.ok) {
         const data = await res.json();
         setAdmins(data);
       }
-    } catch (error) {
+    } catch (_error) {
+      console.error("Failed to fetch admins");
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    } else if (status === "authenticated") {
+      fetchAdmins();
+    }
+  }, [status, router, fetchAdmins]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMessage(null);
     setSubmitting(true);
-
-    // Validation
-    if (!formData.name || !formData.email || !formData.password) {
-      setMessage({ type: "error", text: "All fields are required" });
-      setSubmitting(false);
-      return;
-    }
-
-    if (formData.password.length < 8) {
-      setMessage({ type: "error", text: "Password must be at least 8 characters" });
-      setSubmitting(false);
-      return;
-    }
+    setMessage(null);
 
     try {
       const res = await fetch("/api/admin/admins", {
@@ -69,17 +65,16 @@ export default function AdminsPage() {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        setMessage({ type: "error", text: data.error || "Failed to create admin" });
-        return;
+      if (res.ok) {
+        setMessage({ text: "Admin account created successfully!", type: "success" });
+        setFormData({ name: "", email: "", password: "" });
+        setShowForm(false);
+        fetchAdmins();
+      } else {
+        setMessage({ text: data.error || "Failed to create admin account", type: "error" });
       }
-
-      setMessage({ type: "success", text: "Admin created successfully!" });
-      setFormData({ name: "", email: "", password: "" });
-      setShowForm(false);
-      fetchAdmins();
-    } catch (error) {
-      setMessage({ type: "error", text: "Something went wrong" });
+    } catch (_error) {
+      setMessage({ text: "Something went wrong", type: "error" });
     } finally {
       setSubmitting(false);
     }
@@ -104,11 +99,10 @@ export default function AdminsPage() {
       {/* Message */}
       {message && (
         <div
-          className={`p-4 rounded-lg ${
-            message.type === "success"
-              ? "bg-green-50 border border-green-200 text-green-700"
-              : "bg-red-50 border border-red-200 text-red-700"
-          }`}
+          className={`p-4 rounded-lg ${message.type === "success"
+            ? "bg-green-50 border border-green-200 text-green-700"
+            : "bg-red-50 border border-red-200 text-red-700"
+            }`}
         >
           {message.text}
         </div>

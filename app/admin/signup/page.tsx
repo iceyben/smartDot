@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { Suspense } from "react";
 
-export default function AdminSignupPage() {
+function AdminSignupContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session } = useSession();
@@ -186,5 +187,20 @@ export default function AdminSignupPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AdminSignupPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    }>
+      <AdminSignupContent />
+    </Suspense>
   );
 }

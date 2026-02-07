@@ -9,19 +9,20 @@ async function setAdminRole(email: string) {
   try {
     const user = await prisma.user.update({
       where: { email },
-      data: { role: "admin" },
+      data: { role: "ADMIN" },
     });
 
     console.log(`✅ Success! User "${user.email}" is now an admin.`);
     console.log(`   Name: ${user.name}`);
     console.log(`   Role: ${user.role}`);
     console.log(`\n🌐 You can now access the admin panel at: http://localhost:3000/admin`);
-  } catch (error: any) {
-    if (error.code === "P2025") {
+  } catch (error) {
+    if ((error as { code?: string }).code === "P2025") {
       console.error(`❌ Error: User with email "${email}" not found.`);
       console.log(`   Please sign up first at: http://localhost:3000/signup`);
     } else {
-      console.error("❌ Error setting admin role:", error);
+      const err = error as Error;
+      console.error("Error promoting user:", err.message);
     }
     process.exit(1);
   } finally {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
-import { withAdminAuth } from "@/lib/admin-middleware";
+import { withAdminAuth } from "@/app/lib/admin-middleware";
 import { writeFile, unlink } from "fs/promises";
 import { join } from "path";
 
@@ -130,8 +130,8 @@ export async function PUT(
     });
 
     return NextResponse.json(product);
-  } catch (error) {
-    console.error("Error updating product:", error);
+  } catch (_err) {
+    console.error("Error updating product:", _err);
     return NextResponse.json(
       { error: "Failed to update product" },
       { status: 500 }
@@ -141,11 +141,11 @@ export async function PUT(
 
 // DELETE - Delete product
 export async function DELETE(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ): Promise<Response> {
   // Verify admin access
-  const auth = await withAdminAuth(request);
+  const auth = await withAdminAuth(_request);
   if (!auth.authenticated) return auth.response || new Response("Unauthorized", { status: 401 });
 
   try {

@@ -4,7 +4,7 @@
  * Or use: npx prisma studio and create categories manually
  */
 
-const { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const categories = [

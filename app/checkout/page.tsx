@@ -12,6 +12,7 @@ import Image from "next/image";
 import { FaWhatsapp, FaArrowLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { config } from "@/app/lib/config";
 
 // Define strict types for shipping info
 interface ShippingInfo {
@@ -84,8 +85,8 @@ export default function CheckoutPage() {
     const [showPreview, setShowPreview] = useState(false);
     const [previewMessage, setPreviewMessage] = useState("");
 
-    // WhatsApp admin phone number
-    const ADMIN_WHATSAPP = "+250785657398";
+    // WhatsApp admin phone number from environment
+    const ADMIN_WHATSAPP = config.admin.whatsappNumber;
 
     // If cart is empty, redirect to products
     if (cart.items.length === 0) {

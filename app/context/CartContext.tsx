@@ -119,7 +119,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
                     return updateTotals(newItems);
                 });
-            } catch (error) {
+            } catch (_error) {
+                console.error('Failed to add item to cart:', _error);
                 alert('Failed to add item to cart');
             }
         },

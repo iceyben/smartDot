@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
 
 // Use a global variable to store the PrismaClient instance
 // to prevent multiple instances in development
