@@ -1,18 +1,49 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { Suspense } from "react";
 
-export default function LoginPage() {
+// Map OAuth error codes to user-friendly messages
+const getErrorMessage = (error: string | null): string => {
+  if (!error) return "";
+
+  const errorMessages: Record<string, string> = {
+    OAuthSignin: "Could not connect to Google. Please check your internet connection and try again.",
+    OAuthCallback: "Google sign-in was interrupted. Please try again.",
+    OAuthCreateAccount: "Could not create account. Please try again or use email/password.",
+    EmailCreateAccount: "Could not create account with this email.",
+    Callback: "Sign-in was interrupted. Please try again.",
+    OAuthAccountNotLinked: "This email is already registered. Please sign in with your original method.",
+    EmailSignin: "Could not send sign-in email. Please try again.",
+    CredentialsSignin: "Invalid email or password. Please try again.",
+    SessionRequired: "Please sign in to access this page.",
+    Default: "An error occurred during sign-in. Please try again.",
+  };
+
+  return errorMessages[error] || errorMessages.Default;
+};
+
+function LoginContent() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [loginMethod, setLoginMethod] = useState<"google" | "credentials">("google");
+
+  // Check for OAuth errors in URL
+  useEffect(() => {
+    const urlError = searchParams.get("error");
+    if (urlError) {
+      setError(getErrorMessage(urlError));
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -47,7 +78,7 @@ export default function LoginPage() {
       }
 
       router.push("/admin");
-    } catch (err) {
+    } catch (_err) {
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -58,18 +89,18 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
     try {
-      const result = await signIn("google", { 
+      const result = await signIn("google", {
         callbackUrl: "/auth/callback",
         redirect: false,
       });
-      
+
       if (!result?.ok) {
         setError(`Google sign-in failed: ${result?.error || "Unknown error"}`);
         return;
       }
-      
+
       router.push(result.url || "/auth/callback");
-    } catch (err) {
+    } catch (_err) {
       setError("Google sign-in failed. Please check your connection and try again.");
     } finally {
       setLoading(false);
@@ -94,21 +125,19 @@ export default function LoginPage() {
         <div className="flex gap-2 mb-6 bg-gray-100 p-1 rounded-lg">
           <button
             onClick={() => setLoginMethod("google")}
-            className={`flex-1 py-2 rounded-md font-medium transition-all ${
-              loginMethod === "google"
-                ? "bg-white text-gray-800 shadow-sm"
-                : "text-gray-600"
-            }`}
+            className={`flex-1 py-2 rounded-md font-medium transition-all ${loginMethod === "google"
+              ? "bg-white text-gray-800 shadow-sm"
+              : "text-gray-600"
+              }`}
           >
             Google
           </button>
           <button
             onClick={() => setLoginMethod("credentials")}
-            className={`flex-1 py-2 rounded-md font-medium transition-all ${
-              loginMethod === "credentials"
-                ? "bg-white text-gray-800 shadow-sm"
-                : "text-gray-600"
-            }`}
+            className={`flex-1 py-2 rounded-md font-medium transition-all ${loginMethod === "credentials"
+              ? "bg-white text-gray-800 shadow-sm"
+              : "text-gray-600"
+              }`}
           >
             Email & Password
           </button>
@@ -123,9 +152,11 @@ export default function LoginPage() {
               disabled={loading}
               className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-100 disabled:bg-gray-200 text-gray-700 font-semibold py-3 rounded-xl border border-gray-200 transition-all shadow-md active:scale-[0.98] cursor-pointer disabled:cursor-not-allowed"
             >
-              <img
+              <Image
                 src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
                 alt="Google"
+                width={20}
+                height={20}
                 className="w-5 h-5"
               />
               {loading ? "Connecting to Google..." : "Sign in with Google"}
@@ -186,5 +217,17 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center items-center h-screen bg-gray-50">
+        <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   );
 }

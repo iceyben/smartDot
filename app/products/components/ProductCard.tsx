@@ -2,7 +2,8 @@ import React from "react";
 import AddToCart from "./AddToCart";
 import Link from "next/link";
 import Image from "next/image";
-import { FaOpencart } from "react-icons/fa";
+import { FiShoppingBag, FiInfo } from "react-icons/fi";
+import { useCart } from "@/app/context/CartContext";
 import { WishlistButton } from "./WishlistButton";
 
 
@@ -27,7 +28,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
      description = "Product description",
      href = "#",
      price = 0,
-     category,
 }) => {
      // Use provided productId or fallback to title-based ID
      const finalProductId = productId || title.toLowerCase().replace(/\s+/g, '-');
@@ -36,7 +36,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <div className="relative shadow-lg flex flex-col bg-slate-200 p-3 rounded-2xl h-full hover:shadow-xl transition-shadow duration-300">
                <WishlistButton />
 
-               <Link href={href || `/products/${finalProductId}`} className="block relative w-full aspect-square mb-2 overflow-hidden rounded-lg bg-white">
+               <Link href={href || `/ products / ${finalProductId} `} className="block relative w-full aspect-square mb-2 overflow-hidden rounded-lg bg-white">
                     <Image
                          src={src}
                          alt={alt}
@@ -53,7 +53,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
                <div className="flex flex-col flex-grow justify-between">
                     <div>
-                         <Link href={href || `/products/${finalProductId}`}>
+                         <Link href={href || `/ products / ${finalProductId} `}>
                               <h2 className="text-sm font-bold mb-1 line-clamp-1 hover:text-green-600 transition-colors text-gray-800">
                                    {title}
                               </h2>

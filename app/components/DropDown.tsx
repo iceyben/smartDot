@@ -31,7 +31,8 @@ const DropDown = () => {
           const data = await response.json();
           setCategories(data);
         }
-      } catch (error) {
+      } catch (_error) {
+        console.error("Error fetching categories:", _error);
       } finally {
         setLoading(false);
       }

@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaTimes, FaTrash, FaMinus, FaPlus, FaWhatsapp } from 'react-icons/fa';
+import { FaTimes, FaTrash, FaMinus, FaPlus } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 
 const CartDrawer = () => {

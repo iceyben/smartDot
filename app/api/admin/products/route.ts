@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
-import { withAdminAuth } from "@/lib/admin-middleware";
+import { withAdminAuth } from "@/app/lib/admin-middleware";
 import { writeFile } from "fs/promises";
 import { join } from "path";
 

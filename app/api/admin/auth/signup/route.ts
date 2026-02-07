@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
-import { validateAdminSignupToken } from "@/lib/admin-auth";
+import { validateAdminSignupToken } from "@/app/lib/admin-auth";
 import { z } from "zod";
 
 // Validation schema

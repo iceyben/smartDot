@@ -6,7 +6,7 @@
  * Usage: /products or /products?category=categoryId
  */
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense, useCallback } from "react";
 import ProductCard from "./components/ProductCard";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -32,11 +32,7 @@ function ProductsPageContent() {
   // Get category filter from URL query parameter
   const categoryId = searchParams.get("category");
 
-  useEffect(() => {
-    fetchProducts();
-  }, [categoryId]); // Re-fetch when category changes
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       // Build API URL with optional category filter
       const url = categoryId
@@ -47,12 +43,16 @@ function ProductsPageContent() {
       if (!res.ok) throw new Error("Failed to fetch products");
       const data = await res.json();
       setProducts(data);
-    } catch (error) {
+    } catch {
       setProducts([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, [categoryId]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]); // Now fetchProducts is in the dependency array
 
   if (loading) {
     return (

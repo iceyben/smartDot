@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import AdminSideNav from "./components/AdminSideNav";
-import { getAdminSession } from "@/lib/admin-auth";
+import { getAdminSession } from "@/app/lib/admin-auth";
 
 interface Props {
   children: ReactNode;
@@ -8,7 +8,7 @@ interface Props {
 
 const AdminLayout = async ({ children }: Props) => {
   // This will redirect if user is not authenticated or not an admin
-  const { session } = await getAdminSession();
+  await getAdminSession();
 
   return (
     <div className="flex h-screen w-full flex-col md:flex-row md:overflow-hidden bg-gray-50">

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { FiEdit, FiTrash2, FiPlus, FiSearch } from "react-icons/fi";
 import ProductModal from "./ProductModal";
@@ -46,20 +46,20 @@ export default function AdminProductsList({ categories }: Props) {
     filterProducts();
   }, [products, searchTerm, selectedCategory]);
 
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       const categoryParam = selectedCategory !== "all" ? `?categoryId=${selectedCategory}` : "";
       const res = await fetch(`/api/admin/products${categoryParam}`);
       if (!res.ok) throw new Error("Failed to fetch products");
       const data = await res.json();
       setProducts(data);
-    } catch (error) {
+    } catch (_error) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedCategory]);
 
-  const filterProducts = () => {
+  const filterProducts = useCallback(() => {
     let filtered = products;
 
     // Filter by category
@@ -77,22 +77,51 @@ export default function AdminProductsList({ categories }: Props) {
     }
 
     setFilteredProducts(filtered);
-  };
+  }, [products, searchTerm, selectedCategory]);
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this product?")) return;
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
+  useEffect(() => {
+    filterProducts();
+  }, [filterProducts]);
+
+  const handleDeleteProduct = async (id: string) => {
+    if (!window.confirm("Are you sure you want to delete this product?")) return;
 
     try {
       const res = await fetch(`/api/admin/products/${id}`, {
         method: "DELETE",
       });
 
-      if (!res.ok) throw new Error("Failed to delete product");
+      if (res.ok) {
+        fetchProducts();
+      } else {
+        const data = await res.json();
+        alert(data.error || "Failed to delete product");
+      }
+    } catch (_error) {
+      alert("Something went wrong");
+    }
+  };
 
-      setProducts(products.filter((p) => p.id !== id));
-      alert("Product deleted successfully");
-    } catch (error) {
-      alert("Failed to delete product");
+  const handleUpdateStock = async (id: string, newStock: number) => {
+    try {
+      const res = await fetch(`/api/admin/products/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stock: newStock }),
+      });
+
+      if (res.ok) {
+        fetchProducts();
+      } else {
+        const data = await res.json();
+        alert(data.error || "Failed to update stock");
+      }
+    } catch (_error) {
+      alert("Something went wrong");
     }
   };
 
@@ -225,7 +254,7 @@ export default function AdminProductsList({ categories }: Props) {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(product.id)}
+                    onClick={() => handleDeleteProduct(product.id)}
                     className="flex items-center justify-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
                   >
                     <FiTrash2 />

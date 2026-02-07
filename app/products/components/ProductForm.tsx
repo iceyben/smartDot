@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
+import Image from "next/image";
 
 export default function ProductForm() {
      const [title, setTitle] = useState("");
@@ -61,7 +62,7 @@ export default function ProductForm() {
                setPrice("");
                setFiles([]);
                setPreviews([]);
-          } catch (err) {
+          } catch {
                setMessage("Failed to upload product");
           }
      };
@@ -103,12 +104,14 @@ export default function ProductForm() {
                     {previews.length ? (
                          <div className="grid grid-cols-3 gap-2">
                               {previews.map((src, idx) => (
-                                   <img
-                                        key={idx}
-                                        src={src}
-                                        alt="Preview"
-                                        className="h-24 w-full object-cover"
-                                   />
+                                   <div key={idx} className="relative h-24 w-full">
+                                        <Image
+                                             src={src}
+                                             alt="Preview"
+                                             fill
+                                             className="object-cover"
+                                        />
+                                   </div>
                               ))}
                          </div>
                     ) : (

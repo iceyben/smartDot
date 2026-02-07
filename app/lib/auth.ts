@@ -16,6 +16,7 @@ const adapter = PrismaAdapter(prisma) as unknown as Adapter
 export const authOptions: NextAuthOptions = {
     adapter,
     debug: process.env.NODE_ENV === 'development',
+    // trustHost: true, // Important for Vercel and production
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -25,11 +26,11 @@ export const authOptions: NextAuthOptions = {
                     prompt: "consent",
                     access_type: "offline",
                     response_type: "code",
-                    scope: "openid email profile"
-                }
+                    scope: "openid email profile",
+                },
             },
             httpOptions: {
-                timeout: 30000,
+                timeout: 30000,  // Keep only the timeout
             },
             allowDangerousEmailAccountLinking: true,
             profile(profile) {
@@ -38,21 +39,21 @@ export const authOptions: NextAuthOptions = {
                     name: profile.name,
                     email: profile.email,
                     image: profile.picture,
-                    role: 'USER', // Default role
+                    role: 'USER',
                 }
             }
         }),
         CredentialsProvider({
             name: "Credentials",
             credentials: {
-                email: { 
-                    label: "Email", 
-                    type: "email", 
-                    placeholder: "admin@example.com" 
+                email: {
+                    label: "Email",
+                    type: "email",
+                    placeholder: "admin@example.com"
                 },
-                password: { 
-                    label: "Password", 
-                    type: "password" 
+                password: {
+                    label: "Password",
+                    type: "password"
                 }
             },
             async authorize(credentials) {
@@ -62,8 +63,8 @@ export const authOptions: NextAuthOptions = {
 
                 try {
                     const user = await prisma.user.findUnique({
-                        where: { 
-                            email: credentials.email.toLowerCase().trim() 
+                        where: {
+                            email: credentials.email.toLowerCase().trim()
                         },
                         select: {
                             id: true,
@@ -115,7 +116,7 @@ export const authOptions: NextAuthOptions = {
     },
     cookies: {
         sessionToken: {
-            name: `__Secure-next-auth.session-token`,
+            name: `${process.env.NODE_ENV === 'production' ? '__Secure-' : ''}next-auth.session-token`,
             options: {
                 httpOnly: true,
                 sameSite: 'lax',
@@ -130,7 +131,7 @@ export const authOptions: NextAuthOptions = {
             // Initial sign in
             if (user) {
                 token.id = user.id
-                token.role = (user as any).role || 'USER'
+                token.role = (user as { role?: string }).role || 'USER'
             }
 
             // Update token from session if needed
@@ -144,19 +145,30 @@ export const authOptions: NextAuthOptions = {
             if (session.user) {
                 session.user.id = token.id as string
                 session.user.role = token.role as string
-                // Add any additional user properties here
-                const userSession = session.user as Record<string, unknown>
-                userSession.phoneNumber = null
-                userSession.address = null
-                userSession.city = null
+
+                // Fetch latest user data from database
+                try {
+                    const user = await prisma.user.findUnique({
+                        where: { id: token.id as string },
+                        select: {
+                            phoneNumber: true,
+                            address: true,
+                            city: true,
+                        }
+                    })
+
+                    const userSession = session.user as Record<string, unknown>
+                    userSession.phoneNumber = user?.phoneNumber || null
+                    userSession.address = user?.address || null
+                    userSession.city = user?.city || null
+                } catch (error) {
+                    console.error('Error fetching user data in session:', error)
+                }
             }
             return session
         },
-        async signIn({ user, account, profile }) {
-            if (account?.provider === "google") {
-                // Handle Google sign-in
-                return true
-            }
+        async signIn() {
+            // All sign-in attempts are allowed (Google OAuth and credentials)
             return true
         }
     },

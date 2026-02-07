@@ -10,8 +10,6 @@
  */
 
 import crypto from "crypto";
-import fs from "fs";
-import path from "path";
 
 function generateToken() {
   return crypto.randomBytes(32).toString("hex");
