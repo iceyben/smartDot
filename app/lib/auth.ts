@@ -2,13 +2,10 @@ import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import prisma from "@/app/lib/prisma"
+
 import { NextAuthOptions } from "next-auth"
-import dns from "node:dns"
 import bcrypt from "bcryptjs"
 import { Adapter } from "next-auth/adapters"
-
-// Force IPv4 to prevent connection issues with OAuth providers
-dns.setDefaultResultOrder("ipv4first")
 
 // Type assertion for Prisma adapter
 const adapter = PrismaAdapter(prisma) as unknown as Adapter

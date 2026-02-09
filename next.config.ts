@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Runtime configuration
+  experimental: {
+    serverComponentsExternalPackages: ['@prisma/client'], // Allow Prisma in server components
+  },
+  
   // Image optimization for production
   images: {
     remotePatterns: [
