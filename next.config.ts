@@ -2,9 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   // Runtime configuration
-  experimental: {
-    serverComponentsExternalPackages: ['@prisma/client'], // Allow Prisma in server components
-  },
+  serverExternalPackages: ['@prisma/client'], // Allow Prisma in server components
   
   // Webpack configuration to handle Prisma WASM issues
   webpack: (config, { isServer }) => {
