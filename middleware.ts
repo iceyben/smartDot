@@ -1,29 +1,19 @@
-import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import { auth } from "./app/lib/auth";
 
-export default withAuth(
-    function middleware(req) {
-        const token = req.nextauth.token;
-        const pathname = req.nextUrl.pathname;
+export default auth(function middleware(req: any) {
+    const { token } = auth();
+    const pathname = req.nextUrl.pathname;
 
-        // Check for admin routes
-        if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
-            if (token?.role !== "ADMIN") {
-                return NextResponse.redirect(new URL("/", req.url));
-            }
+    // Check for admin routes
+    if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
+        if (token?.role !== "ADMIN") {
+            return NextResponse.redirect(new URL("/", req.url));
         }
-
-        return NextResponse.next();
-    },
-    {
-        callbacks: {
-            authorized: ({ token }) => !!token,
-        },
-        pages: {
-            signIn: "/login",
-        },
     }
-);
+
+    return NextResponse.next();
+});
 
 export const config = {
     matcher: [
