@@ -1,36 +1,31 @@
-import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export default withAuth(
-    function middleware(req) {
-        const token = req.nextauth.token;
-        const pathname = req.nextUrl.pathname;
+export async function middleware(req: NextRequest) {
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
 
-        // Check for admin routes
-        if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
-            if (token?.role !== "ADMIN") {
-                return NextResponse.redirect(new URL("/", req.url));
-            }
-        }
+  const pathname = req.nextUrl.pathname;
 
-        return NextResponse.next();
-    },
-    {
-        callbacks: {
-            authorized: ({ token }) => !!token,
-        },
-        pages: {
-            signIn: "/login",
-        },
+  // Protect admin routes
+  if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
+    if (token?.role !== "ADMIN") {
+      return NextResponse.redirect(new URL("/", req.url));
     }
-);
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
-    matcher: [
-        "/dashboard/:path*",
-        "/admin/:path*",
-        "/api/admin/:path*",
-        "/checkout/:path*",
-        "/orders/:path*",
-    ],
+  matcher: [
+    "/dashboard/:path*",
+    "/admin/:path*",
+    "/api/admin/:path*",
+    "/checkout/:path*",
+    "/orders/:path*",
+  ],
 };

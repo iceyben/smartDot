@@ -2,21 +2,19 @@ import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import prisma from "@/app/lib/prisma"
+
 import { NextAuthOptions } from "next-auth"
-import dns from "node:dns"
 import bcrypt from "bcryptjs"
 import { Adapter } from "next-auth/adapters"
-
-// Force IPv4 to prevent connection issues with OAuth providers
-dns.setDefaultResultOrder("ipv4first")
 
 // Type assertion for Prisma adapter
 const adapter = PrismaAdapter(prisma) as unknown as Adapter
 
+import NextAuth from "next-auth"
+
 export const authOptions: NextAuthOptions = {
     adapter,
     debug: process.env.NODE_ENV === 'development',
-    // trustHost: true, // Important for Vercel and production
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -30,7 +28,7 @@ export const authOptions: NextAuthOptions = {
                 },
             },
             httpOptions: {
-                timeout: 30000,  // Keep only the timeout
+                timeout: 60000,  // Increased timeout for better reliability
             },
             allowDangerousEmailAccountLinking: true,
             profile(profile) {
@@ -146,31 +144,22 @@ export const authOptions: NextAuthOptions = {
                 session.user.id = token.id as string
                 session.user.role = token.role as string
 
-                // Fetch latest user data from database
-                try {
-                    const user = await prisma.user.findUnique({
-                        where: { id: token.id as string },
-                        select: {
-                            phoneNumber: true,
-                            address: true,
-                            city: true,
-                        }
-                    })
-
-                    const userSession = session.user as Record<string, unknown>
-                    userSession.phoneNumber = user?.phoneNumber || null
-                    userSession.address = user?.address || null
-                    userSession.city = user?.city || null
-                } catch (error) {
-                    console.error('Error fetching user data in session:', error)
-                }
+                // Add additional user properties without database calls for performance
+                const userSession = session.user as Record<string, unknown>
+                userSession.phoneNumber = null
+                userSession.address = null
+                userSession.city = null
             }
             return session
         },
-        async signIn() {
-            // All sign-in attempts are allowed (Google OAuth and credentials)
-            return true
-        }
+        async signIn({ user, account, profile }) {
+            // Allow all sign-in attempts
+            if (user) {
+                console.log('User signed in:', { id: user.id, email: user.email, provider: account?.provider });
+                return true;
+            }
+            return false;
+        },
     },
     secret: process.env.NEXTAUTH_SECRET,
     useSecureCookies: process.env.NODE_ENV === 'production',
@@ -186,3 +175,5 @@ export const authOptions: NextAuthOptions = {
         }
     }
 }
+
+export const { auth, signIn, signOut } = NextAuth(authOptions)

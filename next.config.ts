@@ -1,12 +1,38 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Runtime configuration
+  serverExternalPackages: ['@prisma/client'], // Allow Prisma in server components
+  
+  // Webpack configuration to handle Prisma WASM issues
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.resolve = {
+        ...config.resolve,
+        fallback: {
+          './node_modules/.prisma/client/query_engine_bg.js': false,
+          './node_modules/.prisma/client/query_engine_bg.wasm': false,
+        },
+        alias: {
+          './node_modules/.prisma/client/query_engine_bg.js': './prisma-engine-empty.js',
+          './node_modules/.prisma/client/query_engine_bg.wasm': './prisma-engine-empty.js',
+        },
+      }
+    }
+    return config
+  },
+  
   // Image optimization for production
   images: {
     remotePatterns: [
       {
         protocol: "https",
         hostname: "*.googleusercontent.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.gstatic.com",
         pathname: "/**",
       },
       {
