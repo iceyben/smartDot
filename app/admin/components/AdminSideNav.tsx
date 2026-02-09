@@ -22,7 +22,7 @@ const AdminSideNav = () => {
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="flex items-center justify-center gap-3 p-6 border-b border-gray-200">
-        <Link href="/" className="flex items-center gap-3">
+        <Link href="/admin" className="flex items-center gap-3">
           <Image src="/logo.png" alt="Admin Logo" width={32} height={32} />
           <h1 className="text-xl font-bold text-gray-900">Admin Panel</h1>
         </Link>

@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "www.gstatic.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "res.cloudinary.com",
         pathname: "/**",
       },
